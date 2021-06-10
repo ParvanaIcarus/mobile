@@ -1,13 +1,14 @@
 <template>
   <div>
     <div class="loading" :style="{display:loading}">
-      <i class="iconfont icon-jiazai"></i>
+      <van-loading type="spinner" size="100px" color="blue" />
+      <!-- <i class="iconfont icon-jiazai"></i> -->
     </div>
     <div class="content" v-on:scroll="boxScroll" ref="box">
       <i class="iconfont icon-zhiding top" @click="totop" :style="{display:top}"></i>
       <div v-for="(item) in arr" :key="item.id" class="phone">
         <div class="img">
-          <img :src="item.cover" v-on:error="error" />
+          <img :src="item.cover" @error.once="imgErr($event)" />
         </div>
         <div class="txt">
           <p class>{{item.name}}</p>
@@ -32,8 +33,10 @@ export default {
   },
   props: {},
   methods: {
-    error(event) {
-      event.target.src = '../assets/img/404.jpg'
+    imgErr(event) {
+      // console.log(111)
+      event.target.src = './assets/img/404.jpg'
+      // console.log(event.target.src)
     },
     totop() {
       let setId = setInterval(() => {
@@ -141,11 +144,10 @@ export default {
   width: 100vw;
   height: 83.5vh;
   z-index: 999;
-  i {
-    font-size: 30vw;
+  .van-loading {
     position: absolute;
-    top: 30vh;
-    left: 35vw;
+    top: 35%;
+    left: 35%;
   }
 }
 </style>
