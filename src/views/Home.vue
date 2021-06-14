@@ -1,43 +1,57 @@
 <template>
-  <div>
-    <div class="loading" :style="{display:loading}">
-      <van-loading type="spinner" size="100px" color="blue" />
-      <!-- <i class="iconfont icon-jiazai"></i> -->
-    </div>
+  <div class="Home">
+    <!-- navbar -->
+    <van-nav-bar title="精選" class fixed>
+      <template v-slot:left>
+        <van-icon name="location-o" />
+        <span>深圳市</span>
+      </template>
+      <template v-slot:right>
+        <van-icon name="search" />
+      </template>
+    </van-nav-bar>
+    <!-- 加载效果. -->
     <div class="content" v-on:scroll="boxScroll" ref="box">
       <i class="iconfont icon-zhiding top" @click="totop" :style="{display:top}"></i>
-      <div v-for="(item) in arr" :key="item.id" class="phone">
+      <router-link
+        v-for="(item) in arr"
+        :key="item.id"
+        class="phone"
+        :to="{path:'/Product',query:{id:item.id}}"
+        tag="div"
+      >
         <div class="img">
           <img :src="item.cover" @error.once="imgErr($event)" />
         </div>
         <div class="txt">
           <p class>{{item.name}}</p>
-          <span>￥{{item.price}}</span>
+          <span>{{item.price | filterPrice}}</span>
         </div>
-      </div>
+      </router-link>
     </div>
   </div>
 </template>
 <script>
-import { reqProducts } from '@/network/api'
+import { reqProducts } from '../network/api'
 
 export default {
+  name: 'Home',
   data() {
     return {
+      box: '',
+      // active: 0,
       arr: [],
       totalpage: '',
       loading: 'none',
       top: 'none',
       page: 1,
+      flag: false,
+      boxScrollData: 0,
     }
   },
-  props: {},
+  components: {},
   methods: {
-    imgErr(event) {
-      // console.log(111)
-      event.target.src = './assets/img/404.jpg'
-      // console.log(event.target.src)
-    },
+    // 置頂
     totop() {
       let setId = setInterval(() => {
         this.$refs.box.scrollTop -= 30
@@ -46,73 +60,87 @@ export default {
         }
       })
     },
+    // 盒子滾動觸發
     boxScroll(el) {
       let box = el.target
-      if (box.scrollTop >= 400) {
-        this.top = 'block'
-      } else {
-        this.top = 'none'
-      }
+      this.top = box.scrollTop >= 400 ? 'block' : 'none'
       if (box.scrollHeight - box.clientHeight <= box.scrollTop + 2) {
-        if (this.page == this.totalpage) {
-          console.log('到底了')
-          return
-        }
-        this.page++
-        this.loading = 'block'
-        setTimeout(() => {
-          this.loading = 'none'
-        }, 2000)
-        this.getData({
-          url: '/product/pagination',
-          params: { size: 10, page: this.page },
-        })
+        if (this.page == this.totalpage) return this.$toast('沒有更多數據了')
+        if (this.flag) return
+        this.getData()
       }
     },
-    async getData(tt) {
-      const res = await reqProducts(tt)
-      this.totalpage = res.data.data.totalPages
-      let datas = res.data.data.data
-      datas.forEach((item) => {
-        this.arr.push(item)
+    async getData() {
+      this.$toast.loading({
+        duration: 5000,
+        message: '加载中...',
       })
+      this.flag = true
+      const res = await reqProducts({
+        page: this.page,
+        size: 10,
+      })
+      let { data: result } = res
+      let { data } = result
+      this.totalpage = data.totalPages
+      let datas = data.data
+      this.arr = this.arr.concat(datas)
+      this.page++
+      this.flag = false
+      this.$toast.clear()
     },
   },
   created() {
-    this.getData({
-      url: '/product/pagination',
-      params: { size: 10, page: this.page },
-    })
+    this.getData()
+  },
+  activated() {
+    this.$refs.box.scrollTop = this.boxScrollData
+  },
+  beforeRouteLeave(to, form, next) {
+    this.boxScrollData = this.$refs.box.scrollTop
+    next()
   },
 }
 </script>
-<style lang="less" scoped>
+
+<style lang="less">
+* {
+  margin: 0;
+  padding: 0;
+}
+#app {
+  width: 100%;
+  height: 100%;
+}
 .content {
   display: flex;
   width: 100vw;
-  height: 83.5vh;
-  margin-top: 15vw;
+  height: 85.5vh;
+  margin-top: 12.266666666666666vw;
   margin-right: 0;
   flex-wrap: wrap;
   justify-content: space-around;
   overflow: scroll;
+  -webkit-overflow-scrolling: touch;
   .phone {
     position: relative;
     width: 45vw;
-    height: 30vh;
+    height: 34vh;
     border: solid 0.1vw;
     border-radius: 1vw;
     margin-top: 1vw;
     margin-bottom: 1vw;
     .img {
-      width: 100%;
+      width: 90%;
       height: 70%;
+      padding: 5%;
     }
     img {
       width: 100%;
       height: 100%;
     }
     .txt {
+      margin-top: 5%;
       position: absolute;
       bottom: 0;
       left: 0;
@@ -131,23 +159,15 @@ export default {
 }
 .top {
   display: none;
-  font-size: 8vw;
+  font-size: 10vw !important;
   position: fixed;
   right: 5vw;
   bottom: 10vh;
   z-index: 9;
 }
-.loading {
-  display: none;
-  position: absolute;
-  background: rgba(111, 111, 111, 0.1);
-  width: 100vw;
-  height: 83.5vh;
-  z-index: 999;
-  .van-loading {
-    position: absolute;
-    top: 35%;
-    left: 35%;
+.van-nav-bar {
+  i {
+    font-size: 6.4vw;
   }
 }
 </style>

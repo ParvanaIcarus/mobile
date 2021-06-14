@@ -1,55 +1,30 @@
 <template>
   <div id="app">
-    <Navber bgcolor="#ddd">
-      <NavberItem icon="iconfont icon-dizhi" type="left">深圳</NavberItem>
-      <NavberItem num="2">精選</NavberItem>
-      <NavberItem icon="iconfont icon-sousuo" type="right"></NavberItem>
-    </Navber>
-    <!-- 加载效果. -->
-    <Home></Home>
-    <Tabber bgcolor="#eee">
-      <tabber-item icon="iconfont icon-xingxing">精選</tabber-item>
-      <tabber-item icon="iconfont icon-gouwuche">購物車</tabber-item>
-      <tabber-item icon="iconfont icon-gerenzhongxin">個人</tabber-item>
-    </Tabber>
+    <keep-alive include="Home">
+      <router-view />
+    </keep-alive>
+    <van-tabbar v-model="active" v-show="tabbarShow">
+      <van-tabbar-item icon="star-o" to="/home">精選</van-tabbar-item>
+      <van-tabbar-item icon="cart-o" to="/cart">購物車</van-tabbar-item>
+      <van-tabbar-item icon="contact" to="/me">我的</van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
-<script>
-import Navber from './components/Navbar/Nav.vue'
-import NavberItem from './components/Navbar/NavItem.vue'
-import Tabber from './components/Tabbar/Tabbar.vue'
-import TabberItem from './components/Tabbar/TabberItem.vue'
-import Home from 'views/Home.vue'
 
+<script>
 export default {
-  name: 'App',
   data() {
     return {
-      box: '',
+      active: 0,
     }
   },
-  components: {
-    Navber,
-    NavberItem,
-    Tabber,
-    TabberItem,
-    Home,
+  computed: {
+    tabbarShow() {
+      return this.$route.meta.flag
+    },
   },
-  methods: {},
-  mounted() {},
 }
 </script>
 
 <style lang="less">
-* {
-  margin: 0;
-  padding: 0;
-}
-#app {
-  width: 100%;
-  height: 100%;
-}
-html {
-  width: 100%;
-}
 </style>
