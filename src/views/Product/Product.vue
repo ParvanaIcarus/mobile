@@ -39,42 +39,75 @@
     </van-tabs>
     <!-- 底部购物功能 -->
     <van-goods-action>
-      <van-goods-action-icon icon="like-o" text="收藏" />
-      <van-goods-action-icon icon="cart-o" text="购物车" />
+      <van-goods-action-icon :icon="isLike ? 'like' : 'like-o'" text="收藏" @click="likeClick" />
+      <van-goods-action-icon icon="cart-o" text="购物车" @click="cartClick" />
       <van-goods-action-button type="warning" text="加入购物车" />
       <van-goods-action-button type="danger" text="立即购买" />
     </van-goods-action>
   </div>
 </template>
 <script>
-import { reqProductDetil } from '../../network/api'
+import { reqProductDetil, reqAddLike, reqDelLike } from '../../network/api'
+import { mapGetters, mapState, mapMutations } from 'vuex'
 export default {
   name: 'Product',
   data() {
     return {
-      id: 0,
-      productData: '',
+      productData: {},
       active: 0,
     }
   },
   props: {},
   methods: {
+    ...mapMutations(['changeLikeList']),
+    async likeClick() {
+      if (!this.isLogin) return this.$router.push('/login')
+      let { id: product_id } = this.$route.query
+      if (this.isLike) {
+        // 目前收藏了，需要取消收藏
+        let { errcode } = await reqDelLike(product_id)
+        // if (errcode !== 0) return //一直是90101
+        this.changeLikeList(product_id)
+      } else {
+        // 沒有收藏，需要收藏
+        let { errcode } = await reqAddLike(product_id)
+        let { name, cover, price } = this.productData
+        // if (errcode !== 0) return //一直是90101
+        this.changeLikeList({ name, cover, price, product_id })
+      }
+    },
+    // 返回
     onClickLeft() {
       this.$router.back()
     },
+    // 前往購物車
+    cartClick() {
+      this.$router.push('/cart')
+    },
+    // 獲取商品信息
     async getMsg() {
-      const res = await reqProductDetil(this.$route.query.id)
-      let { data: result } = res
-      let { data } = result
+      const { data } = await reqProductDetil(this.$route.query.id)
       this.productData = data
     },
   },
   created() {
     this.getMsg()
   },
+  computed: {
+    ...mapState(['userInfo']),
+    ...mapGetters(['isLogin']),
+    isLike() {
+      let { likeList } = this.userInfo
+      if (!likeList) return
+      return likeList.some((item) => item.product_id == this.$route.query.id)
+    },
+  },
 }
 </script>
 <style lang="less" scoped>
+.van-goods-action /deep/ .van-icon-like {
+  color: red;
+}
 .van-swipe {
   margin-top: 46px;
   width: 100vw;

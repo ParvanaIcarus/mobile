@@ -12,6 +12,10 @@ Vue.filter('filterPrice', (value) => {
   }
 })
 
+if (sessionStorage.getItem('token')) {
+  store.dispatch('getUserInfo')
+}
+
 import Vant from 'vant'
 import 'vant/lib/index.css'
 Vue.use(Vant)

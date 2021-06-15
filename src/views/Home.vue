@@ -83,7 +83,7 @@ export default {
       let { data: result } = res
       let { data } = result
       this.totalpage = data.totalPages
-      let datas = data.data
+      let datas = data
       this.arr = this.arr.concat(datas)
       this.page++
       this.flag = false

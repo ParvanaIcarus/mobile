@@ -7,11 +7,16 @@ import Home from '../views/Home'
 import Me from '../views/Me/Me'
 import Cart from '../views/Cart/Cart'
 import Product from '../views/Product/Product'
+import Login from 'views/Login/Login'
 
 const routes = [
   {
     path: '/',
     redirect: '/home',
+  },
+  {
+    path: '/login',
+    component: Login,
   },
   {
     path: '/home',
@@ -29,6 +34,7 @@ const routes = [
     component: Me,
     meta: {
       flag: true,
+      isLogin: true,
     },
   },
   {

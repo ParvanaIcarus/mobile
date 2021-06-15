@@ -2,9 +2,13 @@
   <div class>
     <!-- 用户头像 -->
     <div class="head">
-      <div>
+      <div v-if="!isLogin">
         <img src="http://192.168.0.127:8080/img/profile.76a75b8f.png" />
-        <div class="nikename">登录</div>
+        <div class="nikename" @click="login">登录</div>
+      </div>
+      <div v-else>
+        <img :src="userInfo.avatar" />
+        <div class="nikename">{{userInfo.nickname}}</div>
       </div>
     </div>
     <!-- 四宫格 -->
@@ -24,12 +28,23 @@
   </div>
 </template>
 <script>
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'Me',
   data() {
     return {}
   },
+  methods: {
+    login() {
+      this.$router.push('/login')
+    },
+  },
   props: {},
+  computed: {
+    ...mapGetters(['isLogin']),
+    ...mapState(['userInfo']),
+  },
+  created() {},
 }
 </script>
 <style lang="less" scoped>
