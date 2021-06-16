@@ -50,3 +50,15 @@ export const reqUserInfo = () => request({ url: '/user/info' })
 
 // 获取购物车 /cart/all
 export const reqCart = () => request({ url: '/cart/all' })
+
+// 添加購物車 /cart/update
+export const reqAddCart = (product_id) =>
+  request({ url: '/cart/update', method: 'post', data: { product_id } })
+
+// 更新購物車 /cart/update
+export const reqUpdataCart = (data) =>
+  request({ url: '/cart/update', method: 'post', data })
+
+// 刪除購物車 /cart/delete
+export const reqDelCart = (product_id) =>
+  request({ url: '/cart/delete', params: { product_id } })

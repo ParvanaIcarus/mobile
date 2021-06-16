@@ -41,13 +41,18 @@
     <van-goods-action>
       <van-goods-action-icon :icon="isLike ? 'like' : 'like-o'" text="收藏" @click="likeClick" />
       <van-goods-action-icon icon="cart-o" text="购物车" @click="cartClick" />
-      <van-goods-action-button type="warning" text="加入购物车" />
+      <van-goods-action-button type="warning" text="加入购物车" @click="addCart" />
       <van-goods-action-button type="danger" text="立即购买" />
     </van-goods-action>
   </div>
 </template>
 <script>
-import { reqProductDetil, reqAddLike, reqDelLike } from '../../network/api'
+import {
+  reqProductDetil,
+  reqAddLike,
+  reqDelLike,
+  reqAddCart,
+} from '../../network/api'
 import { mapGetters, mapState, mapMutations } from 'vuex'
 export default {
   name: 'Product',
@@ -60,6 +65,13 @@ export default {
   props: {},
   methods: {
     ...mapMutations(['changeLikeList']),
+    // 點擊加入購物車
+    async addCart() {
+      if (!this.isLogin) return this.$router.push('/login')
+      let id = this.$route.query.id
+      await reqAddCart(id)
+    },
+    // 是否收藏
     async likeClick() {
       if (!this.isLogin) return this.$router.push('/login')
       let { id: product_id } = this.$route.query

@@ -48,7 +48,7 @@ export default {
     ...mapMutations(['saveUserInfo']),
     async submit() {
       const res = await reqLogin(this.username, this.password)
-      if (res.errcode !== 0) return this.$toast(res.errmsg)
+      // if (res.errcode !== 0) return this.$toast(res.errmsg)
       sessionStorage.setItem('token', res.data.token)
       this.saveUserInfo(res.data)
       this.$router.back()

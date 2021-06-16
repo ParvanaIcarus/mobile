@@ -6,7 +6,7 @@ import store from './store'
 Vue.config.productionTip = false
 Vue.filter('filterPrice', (value) => {
   if (value) {
-    return `￥${+value.toFixed(2)}`
+    return `￥${value.toFixed(2)}`
   } else {
     return
   }
