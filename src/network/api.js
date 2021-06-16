@@ -62,3 +62,15 @@ export const reqUpdataCart = (data) =>
 // 刪除購物車 /cart/delete
 export const reqDelCart = (product_id) =>
   request({ url: '/cart/delete', params: { product_id } })
+
+// 增加收貨地址 /user_address/create
+export const reqCreateAddress = (data) =>
+  request({ url: '/user_address/create', method: 'post', data })
+
+// 修改收貨地址 /user_address/update
+export const reqUpdataAddress = (id, data) =>
+  request({
+    url: '/user_address/update?id=' + id,
+    method: 'post',
+    data: { data },
+  })

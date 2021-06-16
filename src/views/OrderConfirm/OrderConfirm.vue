@@ -23,12 +23,14 @@ export default {
       arr: [],
     }
   },
+  methods: {
+    onSubmit() {},
+  },
   props: {},
   created() {
     JSON.parse(sessionStorage.getItem('cartList')).forEach((item) => {
       this.arr.push(item)
     })
-    console.log(this.arr)
   },
   computed: {
     totalPrice() {

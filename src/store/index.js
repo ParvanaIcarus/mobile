@@ -10,6 +10,11 @@ export default new Vuex.Store({
     userInfo: {},
   },
   mutations: {
+    // 改變收貨地址
+    changeAddressList(state, data) {
+      let { addressList } = state.userInfo
+      addressList.push(data)
+    },
     // 改變收藏
     changeLikeList(state, data) {
       let { likeList } = state.userInfo

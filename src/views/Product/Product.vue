@@ -42,7 +42,7 @@
       <van-goods-action-icon :icon="isLike ? 'like' : 'like-o'" text="收藏" @click="likeClick" />
       <van-goods-action-icon icon="cart-o" text="购物车" @click="cartClick" />
       <van-goods-action-button type="warning" text="加入购物车" @click="addCart" />
-      <van-goods-action-button type="danger" text="立即购买" />
+      <van-goods-action-button type="danger" text="立即购买" @click="buyClick" />
     </van-goods-action>
   </div>
 </template>
@@ -65,6 +65,17 @@ export default {
   props: {},
   methods: {
     ...mapMutations(['changeLikeList']),
+    // 點擊購買
+    buyClick() {
+      if (!this.isLogin) return this.$router.push('/login')
+      let { id: product_id, cover, name, price } = this.productData
+      sessionStorage.setItem(
+        'cartList',
+        JSON.stringify([{ product_id, cover, name, price, count: 1 }])
+      )
+      console.log(this.productData)
+      this.$router.push('orderConfirm')
+    },
     // 點擊加入購物車
     async addCart() {
       if (!this.isLogin) return this.$router.push('/login')

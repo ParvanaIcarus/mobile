@@ -13,6 +13,7 @@ import Setting from 'views/Setting/Setting'
 import AddressList from 'views/AddressList/AddressList'
 import LikeList from 'views/LikeList/LikeList'
 import OrderConfirm from 'views/OrderConfirm/OrderConfirm'
+import AddressEdit from 'views/AddressEdit/AddressEdit'
 
 const routes = [
   {
@@ -25,24 +26,44 @@ const routes = [
     component: OrderConfirm,
   },
   {
+    path: '/addressEdit',
+    name: AddressEdit,
+    component: AddressEdit,
+    meta: {
+      isLogin: true,
+    },
+  },
+  {
     path: '/likelist',
     component: LikeList,
     name: LikeList,
+    meta: {
+      isLogin: true,
+    },
   },
   {
     path: '/addresslist',
     component: AddressList,
     name: AddressList,
+    meta: {
+      isLogin: true,
+    },
   },
   {
     path: '/setting',
     component: Setting,
     name: Setting,
+    meta: {
+      isLogin: true,
+    },
   },
   {
     path: '/orderlist',
     component: OrderList,
     name: OrderList,
+    meta: {
+      isLogin: true,
+    },
   },
   {
     path: '/login',
