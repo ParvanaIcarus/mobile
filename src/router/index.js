@@ -8,11 +8,31 @@ import Me from '../views/Me/Me'
 import Cart from '../views/Cart/Cart'
 import Product from '../views/Product/Product'
 import Login from 'views/Login/Login'
+import OrderList from 'views/OrderList/OrderList'
+import Setting from 'views/Setting/Setting'
+import AddressList from 'views/AddressList/AddressList'
+import LikeList from 'views/LikeList/LikeList'
 
 const routes = [
   {
     path: '/',
     redirect: '/home',
+  },
+  {
+    path: '/likelist',
+    component: LikeList,
+  },
+  {
+    path: '/addresslist',
+    component: AddressList,
+  },
+  {
+    path: '/setting',
+    component: Setting,
+  },
+  {
+    path: '/orderlist',
+    component: OrderList,
   },
   {
     path: '/login',
@@ -34,7 +54,7 @@ const routes = [
     component: Me,
     meta: {
       flag: true,
-      isLogin: true,
+      // isLogin: true,
     },
   },
   {

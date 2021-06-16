@@ -1,0 +1,15 @@
+<template>
+  <div class>
+    <van-nav-bar title="我的订单" left-text="返回" left-arrow @click-left="$router.back()" />
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {}
+  },
+  props: {},
+}
+</script>
+<style scoped>
+</style>

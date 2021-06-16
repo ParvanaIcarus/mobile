@@ -45,5 +45,8 @@ export const reqDelLike = (product_id) =>
     },
   })
 
-// 獲取用戶信息
+// 獲取用戶信息 /user/info
 export const reqUserInfo = () => request({ url: '/user/info' })
+
+// 获取购物车 /cart/all
+export const reqCart = () => request({ url: '/cart/all' })

@@ -20,10 +20,10 @@
     </van-grid>
     <!-- 單元格 -->
     <van-cell-group>
-      <van-cell title="我的訂單" is-link icon="records" />
-      <van-cell title="我的收藏" is-link icon="like-o" />
-      <van-cell title="收貨地址" is-link icon="description" />
-      <van-cell title="用戶設置" is-link icon="setting-o" />
+      <van-cell title="我的訂單" is-link icon="records" :to="isLogin ? '/orderlist' : '/login'" />
+      <van-cell title="我的收藏" is-link icon="like-o" :to="isLogin ? '/likelist' : '/login'" />
+      <van-cell title="收貨地址" is-link icon="description" :to="isLogin ? '/addresslist' : '/login'" />
+      <van-cell title="用戶設置" is-link icon="setting-o" :to="isLogin ? '/setting' : '/login'" />
     </van-cell-group>
   </div>
 </template>
