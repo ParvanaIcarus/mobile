@@ -14,6 +14,7 @@ import AddressList from 'views/AddressList/AddressList'
 import LikeList from 'views/LikeList/LikeList'
 import OrderConfirm from 'views/OrderConfirm/OrderConfirm'
 import AddressEdit from 'views/AddressEdit/AddressEdit'
+import OrderInfo from 'views/OrderInfo/OrderInfo'
 
 const routes = [
   {
@@ -24,6 +25,14 @@ const routes = [
     path: '/orderConfirm',
     name: OrderConfirm,
     component: OrderConfirm,
+  },
+  {
+    path: '/orderInfo',
+    name: OrderInfo,
+    component: OrderInfo,
+    meta: {
+      isLogin: true,
+    },
   },
   {
     path: '/addressEdit',

@@ -80,3 +80,17 @@ export const reqDelAddress = (id) =>
   request({
     url: '/user_address/delete?id=' + id,
   })
+
+// 下单 /order/create
+export const reqCreateOrder = (data) =>
+  request({
+    url: '/order/create',
+    method: 'post',
+    data,
+  })
+
+// 获取订单信息  /order
+export const reqOrderInfo = (id) =>
+  request({
+    url: '/order?id=' + id,
+  })

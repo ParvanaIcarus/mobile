@@ -20,18 +20,58 @@
     <van-submit-bar :price="totalPrice?totalPrice:0" button-text="提交订单" @submit="onSubmit">
       <template>共计:{{amount}}件</template>
     </van-submit-bar>
+
+    <van-popup v-model="show" position="bottom" style="height:70%;width:100%">
+      <van-nav-bar title="付款" @click-left="closeClick">
+        <template #left>
+          <van-icon name="cross" />
+        </template>
+      </van-nav-bar>
+      <!-- 密码输入框 -->
+      <van-password-input :value="password" info="密码为 6 位数字" />
+      <!-- 数字键盘 -->
+      <van-number-keyboard v-model="password" :show="true" @input="passwordInput" />
+    </van-popup>
   </div>
 </template>
 <script>
 import { mapState } from 'vuex'
+import { reqCreateOrder } from 'network/api'
 export default {
   data() {
     return {
       arr: [],
+      show: false,
+      password: '',
+      orderId: 0,
     }
   },
   methods: {
-    onSubmit() {},
+    // 拒绝付款
+    closeClick() {
+      this.$router.push({
+        path: '/orderInfo',
+        query: { id: this.orderId },
+      })
+    },
+    // 提交按钮
+    async onSubmit() {
+      if (!this.selectAddress.id) return this.$toast('请选择地址')
+      let user_address_id = this.selectAddress.id
+      let { arr: orderProductList } = this
+      let res = await reqCreateOrder({ user_address_id, orderProductList })
+      this.orderId = res.data.id
+      this.show = true
+    },
+    // 密码验证
+    passwordInput() {
+      this.$nextTick((_) => {
+        console.log(this.password)
+        if (this.password.length == 6) {
+          this.password = ''
+        }
+      })
+    },
   },
   props: {},
   created() {
@@ -55,6 +95,7 @@ export default {
     },
     // 总价
     totalPrice() {
+      if (!this.arr[0]) return
       return (
         this.arr.reduce((pre, curr) => (pre += curr.count * curr.price), 0) *
         100
@@ -62,6 +103,7 @@ export default {
     },
     // 計算總件數
     amount() {
+      if (!this.arr[0]) return
       return this.arr.reduce((pre, curr) => (pre += +curr.count), 0)
     },
   },
