@@ -74,3 +74,9 @@ export const reqUpdataAddress = (id, data) =>
     method: 'post',
     data: { data },
   })
+
+// 刪除收貨地址 /user_address/delete
+export const reqDelAddress = (id) =>
+  request({
+    url: '/user_address/delete?id=' + id,
+  })

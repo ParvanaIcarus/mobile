@@ -7,13 +7,32 @@ import { reqUserInfo } from '../network/api'
 
 export default new Vuex.Store({
   state: {
+    // 用户信息
     userInfo: {},
+    // 选中的地址
+    selectAddress: {},
   },
   mutations: {
+    // 改变选中的地址.
+    changeSelectAddress(state, data) {
+      state.selectAddress = data
+    },
     // 改變收貨地址
     changeAddressList(state, data) {
+      let { id } = data.data
       let { addressList } = state.userInfo
-      addressList.push(data)
+      let index = addressList.findIndex((item) => item.id == id)
+      switch (data.type) {
+        case 'add':
+          addressList.push(data.data)
+          break
+        case 'edit':
+          addressList[index] = data.data
+          break
+        case 'del':
+          addressList.splice(index, 1)
+          break
+      }
     },
     // 改變收藏
     changeLikeList(state, data) {

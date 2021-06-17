@@ -1,7 +1,13 @@
 <template>
   <div class>
     <van-nav-bar title="確認訂單" left-text="返回" left-arrow @click-left="$router.back()" />
-    <van-cell title="請選擇收貨地址" is-link class="address" to="/addresslist" />
+    <van-cell
+      :title="title? title : `请选择收货地址`"
+      :label="label ? label : ''"
+      is-link
+      class="address"
+      to="/addresslist"
+    />
     <div v-for="item in arr" :key="item.product_id">
       <van-cell
         :title="item.name.split(' ')[0]"
@@ -17,6 +23,7 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -33,6 +40,20 @@ export default {
     })
   },
   computed: {
+    ...mapState(['selectAddress']),
+    // 选择地址的标题
+    title() {
+      if (!this.selectAddress.id) return false
+      let { name, tel } = this.selectAddress
+      return `${name},${tel}`
+    },
+    // 选择地址的详细地址
+    label() {
+      if (!this.selectAddress.id) return false
+      let { address } = this.selectAddress
+      return `${address}`
+    },
+    // 总价
     totalPrice() {
       return (
         this.arr.reduce((pre, curr) => (pre += curr.count * curr.price), 0) *

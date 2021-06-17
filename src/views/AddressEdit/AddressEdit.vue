@@ -11,30 +11,41 @@
       :area-list="areaList"
       :show-delete="!type"
       show-set-default
+      :address-info="addInfo"
+      @delete="del"
     />
   </div>
 </template>
 <script>
 import { areaList } from '@vant/area-data'
-import { reqCreateAddress } from 'network/api'
-import { mapMutations } from 'vuex'
+import { reqCreateAddress, reqUpdataAddress, reqDelAddress } from 'network/api'
+import { mapMutations, mapState } from 'vuex'
 
 export default {
   data() {
     return {
       areaList,
+      list: [],
     }
   },
   methods: {
     ...mapMutations(['changeAddressList']),
+    // 刪除地址
+    async del() {
+      let { id } = this.$route.query
+      const res = await reqDelAddress(+id)
+      this.changeAddressList({ type: 'del', data: { id } })
+      this.$router.back()
+    },
+    // 更改數據或新增
     async saveAddress(content) {
-      console.log(content)
+      let { id } = this.$route.query
       let {
         name,
         province,
         city,
         county: country,
-        detail,
+        addressDetail: detail,
         tel: mobile,
         areaCode: code,
       } = content
@@ -49,30 +60,53 @@ export default {
       }
       if (this.type) {
         // 新增數據
-        // name:收货人名称
-        // province:省份
-        // city: 城市名称
-        // country:区或者县
-        // detail:详细地址门牌号
-        // mobile: 联系电话
-        // code:区域编码
-        // default:是否为默认地址(1为是，0为否,默认为0)
-        // let data = {address,}
         let res = await reqCreateAddress(params)
         let { data } = res
-        this.changeAddressList(data)
+        this.changeAddressList({ data, type: 'add' })
         this.$router.back()
       } else {
         // 修改數據
+        let res = await reqUpdataAddress(id, params)
+        params.id = id
+        this.changeAddressList({ data: params, type: 'edit' })
+        this.$router.back()
       }
     },
   },
   props: {},
-  created() {},
+  created() {
+    // if (this.$route.query.id) {
+    //   console.log(
+    //     this.userInfo.addressList.find(
+    //       (item) => item.id == this.$route.query.id
+    //     )
+    //   )
+    // }
+  },
   computed: {
+    ...mapState(['userInfo']),
     // 判斷是否新增，是為true，否則為false
     type() {
       return this.$route.query.type == 'add'
+    },
+    //选择了的收货地址
+
+    // 拼串 放入到页面地址栏里
+    addInfo() {
+      if (this.type) return {}
+      if (!this.userInfo.addressList) return
+      const { id } = this.$route.query
+      let item = this.userInfo.addressList.find((item) => item.id == id)
+      if (!item) return
+      let {
+        name,
+        mobile: tel,
+        province,
+        city,
+        country: county,
+        detail: addressDetail,
+      } = item
+      return { id, name, tel, province, city, county, addressDetail }
     },
   },
 }
