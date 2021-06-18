@@ -21,7 +21,7 @@
         tag="div"
       >
         <div class="img">
-          <img :src="item.cover" @error.once="imgErr($event)" />
+          <img :src="item.cover" />
         </div>
         <div class="txt">
           <p class>{{item.name}}</p>

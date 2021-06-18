@@ -7,7 +7,7 @@
         <div class="nikename" @click="login">登录</div>
       </div>
       <div v-else>
-        <img :src="userInfo.avatar" />
+        <img :src="IMGBASEURL+userInfo.avatar" />
         <div class="nikename">{{userInfo.nickname}}</div>
       </div>
     </div>
@@ -21,7 +21,7 @@
     <!-- 單元格 -->
     <van-cell-group>
       <van-cell title="我的訂單" is-link icon="records" to="/orderlist" />
-      <van-cell title="我的收藏" is-link icon="like-o" to="/likelist" />
+      <van-cell title="我的收藏" is-link icon="like-o" to="/likeList" />
       <van-cell
         title="收貨地址"
         is-link
@@ -33,11 +33,14 @@
   </div>
 </template>
 <script>
+import { IMGBASEURL } from 'network/baseUrl'
 import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'Me',
   data() {
-    return {}
+    return {
+      IMGBASEURL,
+    }
   },
   methods: {
     login() {
@@ -57,6 +60,9 @@ export default {
   height: 25vw;
   background: #f37d0f;
   color: white;
+  img {
+    border-radius: 50%;
+  }
   div:first-child {
     display: flex;
     img {

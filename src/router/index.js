@@ -15,6 +15,11 @@ import LikeList from 'views/LikeList/LikeList'
 import OrderConfirm from 'views/OrderConfirm/OrderConfirm'
 import AddressEdit from 'views/AddressEdit/AddressEdit'
 import OrderInfo from 'views/OrderInfo/OrderInfo'
+import PaySuccess from 'views/PaySuccess/PaySuccess'
+import SetAvatar from 'views/SetAvatar/SetAvatar'
+import SetLoginPassword from 'views/SetLoginPassword/SetLoginPassword'
+import SetPayPassword from 'views/SetPayPassword/SetPayPassword'
+import SetNickName from 'views/SetNickName/SetNickName'
 
 const routes = [
   {
@@ -22,9 +27,46 @@ const routes = [
     redirect: '/home',
   },
   {
+    path: '/setNickName',
+    name: SetNickName,
+    component: SetNickName,
+    meta: {
+      isLogin: true,
+    },
+  },
+  {
+    path: '/setPayPassword',
+    name: SetPayPassword,
+    component: SetPayPassword,
+    meta: {
+      isLogin: true,
+    },
+  },
+  {
+    path: '/setLoginPassword',
+    name: SetLoginPassword,
+    component: SetLoginPassword,
+    meta: {
+      isLogin: true,
+    },
+  },
+  {
+    path: '/setAvatar',
+    name: SetAvatar,
+    component: SetAvatar,
+    meta: {
+      isLogin: true,
+    },
+  },
+  {
     path: '/orderConfirm',
     name: OrderConfirm,
     component: OrderConfirm,
+  },
+  {
+    path: '/paySuccess',
+    name: PaySuccess,
+    component: PaySuccess,
   },
   {
     path: '/orderInfo',
@@ -43,7 +85,7 @@ const routes = [
     },
   },
   {
-    path: '/likelist',
+    path: '/likeList',
     component: LikeList,
     name: LikeList,
     meta: {
@@ -101,7 +143,6 @@ const routes = [
     name: Me,
     meta: {
       flag: true,
-      isLogin: true,
     },
   },
   {

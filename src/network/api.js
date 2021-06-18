@@ -94,3 +94,63 @@ export const reqOrderInfo = (id) =>
   request({
     url: '/order?id=' + id,
   })
+
+//付款 /order/pay
+export const reqPayOrder = (order_id, pay_password) =>
+  request({
+    url: '/order/pay?order_id=' + order_id,
+    method: 'post',
+    data: {
+      pay_password,
+    },
+  })
+
+// 獲取訂單分頁 /order/pagination
+export const reqOrderList = (page) =>
+  request({
+    url: '/order/pagination',
+    params: {
+      page,
+      size: 10,
+    },
+  })
+
+// 修改用戶基本信息 /user/setting
+export const reqSettingNickname = (nickname) =>
+  request({
+    url: '/user/setting',
+    method: 'post',
+    data: {
+      nickname,
+    },
+  })
+
+// 修改登錄密碼 /user/updatePassword
+export const reqUpdatePassword = (password, newPassword) =>
+  request({
+    url: '/user/updatePassword',
+    method: 'post',
+    data: {
+      password,
+      newPassword,
+    },
+  })
+
+// 修改支付密碼 /user/updatePayPassword
+export const reqUpdatePayPassword = (password, newPassword) =>
+  request({
+    url: '/user/updatePayPassword',
+    method: 'post',
+    data: {
+      password,
+      newPassword,
+    },
+  })
+
+// 修改用戶頭像 /user/avatar
+export const reqAvatar = (avatar) =>
+  request({
+    url: '/user/avatar',
+    method: 'post',
+    data: avatar,
+  })

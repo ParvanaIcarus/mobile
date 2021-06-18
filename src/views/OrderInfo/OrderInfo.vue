@@ -24,7 +24,7 @@
         <span style="color:red;">{{totalPrice | filterPrice}}</span>
       </div>
       <div>
-        <van-button type="primary" @click="pay">付款</van-button>
+        <van-button :class="status ? `green` : `gray`" @click="pay">{{status ? `付款`:`等待買家發貨`}}</van-button>
       </div>
     </div>
     <van-popup v-model="show" position="bottom" style="height:70%;width:100%">
@@ -41,13 +41,15 @@
   </div>
 </template>
 <script>
-import { reqOrderInfo } from 'network/api'
+import { reqOrderInfo, reqPayOrder } from 'network/api'
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
       show: false,
-      id: 0,
+      orderId: 0,
       OrderObj: {},
+      password: '',
     }
   },
   props: {},
@@ -62,15 +64,37 @@ export default {
     },
     // 获取数据
     async getData() {
-      const res = await reqOrderInfo(this.id)
+      const res = await reqOrderInfo(this.orderId)
       this.OrderObj = res.data
+    },
+    // 密码验证
+    passwordInput() {
+      this.$nextTick(async (_) => {
+        if (this.password.length == 6) {
+          if (this.userInfo.pay_password == this.password) {
+            // this.orderId  // 支付密碼正確  發請求
+            const { errcode, errmsg } = await reqPayOrder(
+              this.orderId,
+              this.password
+            )
+            if (errcode !== 0) return this.$toast(errmsg)
+            this.$router.push('/paySuccess')
+          } else {
+            // 支付密碼錯誤
+            this.$toast('支付密碼錯誤')
+          }
+          this.password = ''
+          this.show = false
+        }
+      })
     },
   },
   created() {
-    this.id = this.$route.query.id
+    this.orderId = this.$route.query.id
     this.getData()
   },
   computed: {
+    ...mapState(['userInfo']),
     // 计算 title 名字
     title() {
       if (!this.OrderObj.userAddress) return
@@ -90,6 +114,12 @@ export default {
         (pre, curr) => (pre += curr.count * curr.price),
         0
       )
+    },
+    // 獲取當前訂單的狀態
+    // true 為 未付款狀態
+    status() {
+      if (!this.OrderObj.orderProducts) return
+      return this.OrderObj.order_status == 0
     },
   },
 }
@@ -112,5 +142,13 @@ export default {
   bottom: 0;
   justify-content: space-between;
   align-items: center;
+}
+.green {
+  color: white;
+  background: green;
+}
+.gray {
+  color: white;
+  background: gray;
 }
 </style>

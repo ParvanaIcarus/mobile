@@ -13,6 +13,19 @@ export default new Vuex.Store({
     selectAddress: {},
   },
   mutations: {
+    // 更改圖片
+    changeAvatar(){
+
+    },
+    // 清空userInfo,selectAddress
+    clearDate(state) {
+      state.userInfo = {}
+      state.selectAddress = {}
+    },
+    // 改變暱稱
+    changeNickName(state, nickname) {
+      state.userInfo.nickname = nickname
+    },
     // 改变选中的地址.
     changeSelectAddress(state, data) {
       state.selectAddress = data
