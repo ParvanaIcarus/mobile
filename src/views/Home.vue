@@ -57,7 +57,7 @@ export default {
       loading: 'none',
       top: 'none',
       page: 1,
-      flag: false,
+      flag: true,
       boxScrollData: 0,
     }
   },
@@ -78,7 +78,7 @@ export default {
       this.top = box.scrollTop >= 400 ? 'block' : 'none'
       if (box.scrollHeight - box.clientHeight <= box.scrollTop + 2) {
         if (this.page == this.totalpage) return this.$toast('沒有更多數據了')
-        if (this.flag) return
+        if (!this.flag) return
         this.getData()
       }
     },
@@ -87,7 +87,8 @@ export default {
       //   duration: 5000,
       //   message: '加载中...',
       // })
-      this.flag = true
+      if (!this.flag) return
+      this.flag = false
       const res = await reqProducts({
         page: this.page,
         size: 10,
@@ -98,7 +99,7 @@ export default {
       let datas = data
       this.arr = this.arr.concat(datas)
       this.page++
-      this.flag = false
+      this.flag = true
       // this.$toast.clear()
     },
   },
