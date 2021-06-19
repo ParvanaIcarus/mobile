@@ -121,6 +121,7 @@ export default {
   justify-content: space-between;
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
+  z-index: 0;
   .phone {
     position: relative;
     width: 45vw;

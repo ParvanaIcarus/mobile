@@ -107,6 +107,7 @@ export default {
     this.getData()
   },
   activated() {
+    this.active = 0
     this.$refs.box.scrollTop = this.boxScrollData
   },
   beforeRouteLeave(to, form, next) {
@@ -135,7 +136,7 @@ export default {
 .content {
   display: flex;
   width: 100vw;
-  height: 85.5vh;
+  height: calc(100vh - 96px);
   margin-top: 12.266666666666666vw;
   margin-right: 0;
   flex-wrap: wrap;
