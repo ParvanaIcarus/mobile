@@ -20,6 +20,8 @@ import SetAvatar from 'views/SetAvatar/SetAvatar'
 import SetLoginPassword from 'views/SetLoginPassword/SetLoginPassword'
 import SetPayPassword from 'views/SetPayPassword/SetPayPassword'
 import SetNickName from 'views/SetNickName/SetNickName'
+import Search from 'views/Search/Search'
+import SelectCity from 'views/SelectCity/SelectCity'
 
 const routes = [
   {
@@ -27,8 +29,18 @@ const routes = [
     redirect: '/home',
   },
   {
+    path: '/search',
+    name: 'Search',
+    component: Search,
+  },
+  {
+    path: '/selectCity',
+    name: 'SelectCity',
+    component: SelectCity,
+  },
+  {
     path: '/setNickName',
-    name: SetNickName,
+    name: 'SetNickName',
     component: SetNickName,
     meta: {
       isLogin: true,
@@ -36,7 +48,7 @@ const routes = [
   },
   {
     path: '/setPayPassword',
-    name: SetPayPassword,
+    name: 'SetPayPassword',
     component: SetPayPassword,
     meta: {
       isLogin: true,
@@ -44,7 +56,7 @@ const routes = [
   },
   {
     path: '/setLoginPassword',
-    name: SetLoginPassword,
+    name: 'SetLoginPassword',
     component: SetLoginPassword,
     meta: {
       isLogin: true,
@@ -52,7 +64,7 @@ const routes = [
   },
   {
     path: '/setAvatar',
-    name: SetAvatar,
+    name: 'SetAvatar',
     component: SetAvatar,
     meta: {
       isLogin: true,
@@ -60,17 +72,17 @@ const routes = [
   },
   {
     path: '/orderConfirm',
-    name: OrderConfirm,
+    name: 'OrderConfirm',
     component: OrderConfirm,
   },
   {
     path: '/paySuccess',
-    name: PaySuccess,
+    name: 'PaySuccess',
     component: PaySuccess,
   },
   {
     path: '/orderInfo',
-    name: OrderInfo,
+    name: 'OrderInfo',
     component: OrderInfo,
     meta: {
       isLogin: true,
@@ -78,7 +90,7 @@ const routes = [
   },
   {
     path: '/addressEdit',
-    name: AddressEdit,
+    name: 'AddressEdit',
     component: AddressEdit,
     meta: {
       isLogin: true,
@@ -87,7 +99,7 @@ const routes = [
   {
     path: '/likeList',
     component: LikeList,
-    name: LikeList,
+    name: 'LikeList',
     meta: {
       isLogin: true,
     },
@@ -95,7 +107,7 @@ const routes = [
   {
     path: '/addresslist',
     component: AddressList,
-    name: AddressList,
+    name: 'AddressList',
     meta: {
       isLogin: true,
     },
@@ -103,7 +115,7 @@ const routes = [
   {
     path: '/setting',
     component: Setting,
-    name: Setting,
+    name: 'Setting',
     meta: {
       isLogin: true,
     },
@@ -111,7 +123,7 @@ const routes = [
   {
     path: '/orderlist',
     component: OrderList,
-    name: OrderList,
+    name: 'OrderList',
     meta: {
       isLogin: true,
     },
@@ -119,12 +131,12 @@ const routes = [
   {
     path: '/login',
     component: Login,
-    name: Login,
+    name: 'Login',
   },
   {
     path: '/home',
     component: Home,
-    name: Home,
+    name: 'Home',
     meta: {
       flag: true,
     },
@@ -132,7 +144,7 @@ const routes = [
   {
     path: '/cart',
     component: Cart,
-    name: Cart,
+    name: 'Cart',
     meta: {
       isLogin: true,
     },
@@ -140,7 +152,7 @@ const routes = [
   {
     path: '/me',
     component: Me,
-    name: Me,
+    name: 'Me',
     meta: {
       flag: true,
     },
@@ -148,7 +160,7 @@ const routes = [
   {
     path: '/product',
     component: Product,
-    name: Product,
+    name: 'Product',
   },
 ]
 

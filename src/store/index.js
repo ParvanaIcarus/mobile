@@ -11,16 +11,21 @@ export default new Vuex.Store({
     userInfo: {},
     // 选中的地址
     selectAddress: {},
+    // 定位的地址
+    positionAddress: '定位中...',
   },
   mutations: {
-    // 更改圖片
-    changeAvatar(){
-
+    // 更改定位的地址
+    changeAddress(state, data) {
+      state.positionAddress = data
     },
+    // 更改圖片
+    changeAvatar() {},
     // 清空userInfo,selectAddress
     clearDate(state) {
       state.userInfo = {}
       state.selectAddress = {}
+      state.positionAddress = {}
     },
     // 改變暱稱
     changeNickName(state, nickname) {

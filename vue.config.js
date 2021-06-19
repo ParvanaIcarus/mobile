@@ -20,7 +20,7 @@ module.exports = {
     proxy: {
       '/api': {
         //这里最好有一个 /
-        target: 'http://192.168.0.127:8360', // 后台接口域名
+        target: 'http://192.168.0.131:8360', // 后台接口域名
         changeOrigin: true, //是否跨域
       },
     },

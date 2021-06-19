@@ -1,6 +1,6 @@
 import { request } from './request'
 
-// 首頁商品請求
+// 商品分页与搜索
 export const reqProducts = (params) =>
   request({
     url: '/product/pagination',

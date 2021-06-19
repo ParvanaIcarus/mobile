@@ -1,10 +1,16 @@
 <template>
   <div class="Home">
     <!-- navbar -->
-    <van-nav-bar title="精選" class fixed>
+    <van-nav-bar
+      title="精選"
+      class
+      fixed
+      @click-right="$router.push('/search')"
+      @click-left="$router.push('/selectCity')"
+    >
       <template v-slot:left>
         <van-icon name="location-o" />
-        <span>深圳市</span>
+        <span>{{address}}</span>
       </template>
       <template v-slot:right>
         <van-icon name="search" />
@@ -33,7 +39,7 @@
 </template>
 <script>
 import { reqProducts } from '../network/api'
-
+import { mapState } from 'vuex'
 export default {
   name: 'Home',
   data() {
@@ -99,6 +105,13 @@ export default {
   beforeRouteLeave(to, form, next) {
     this.boxScrollData = this.$refs.box.scrollTop
     next()
+  },
+  computed: {
+    ...mapState(['positionAddress']),
+    address() {
+      if (!this.positionAddress) return
+      return this.positionAddress
+    },
   },
 }
 </script>
