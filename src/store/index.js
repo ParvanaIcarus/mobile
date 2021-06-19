@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import { reqUserInfo } from '../network/api'
+import { reqUserInfo, reqCurrentPostion } from '../network/api'
 
 export default new Vuex.Store({
   state: {
@@ -78,6 +78,14 @@ export default new Vuex.Store({
     async getUserInfo(context) {
       const { data } = await reqUserInfo()
       context.commit('saveUserInfo', data)
+    },
+    // 获取定位
+    getNowAddress(context) {
+      navigator.geolocation.getCurrentPosition(async ({ coords }) => {
+        const { latitude, longitude } = coords
+        const { content } = await reqCurrentPostion(latitude, longitude)
+        context.commit('changeAddress', content.address_detail.city)
+      })
     },
   },
   modules: {},

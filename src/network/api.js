@@ -1,4 +1,5 @@
 import { request } from './request'
+import Vue from 'vue'
 
 // 商品分页与搜索
 export const reqProducts = (params) =>
@@ -154,3 +155,15 @@ export const reqAvatar = (avatar) =>
     method: 'post',
     data: avatar,
   })
+
+// 获取带字母的城市列表 /data/city
+export const reqCity = () =>
+  request({
+    url: '/data/city',
+  })
+
+// 获取地理位置
+export const reqCurrentPostion = (latitude, longitude) =>
+  Vue.prototype.$jsonp(
+    `https://api.map.baidu.com/location/ip?ak=rFpmltbYjQ01vjahH2zVLKVXfmx2RQWS&coor=${latitude},${longitude}`,
+  )

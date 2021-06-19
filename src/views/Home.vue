@@ -10,7 +10,7 @@
     >
       <template v-slot:left>
         <van-icon name="location-o" />
-        <span>{{address}}</span>
+        <span>{{city}}</span>
       </template>
       <template v-slot:right>
         <van-icon name="search" />
@@ -108,7 +108,7 @@ export default {
   },
   computed: {
     ...mapState(['positionAddress']),
-    address() {
+    city() {
       if (!this.positionAddress) return
       return this.positionAddress
     },
