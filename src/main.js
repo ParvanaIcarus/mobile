@@ -28,8 +28,17 @@ import Vant from 'vant'
 import 'vant/lib/index.css'
 Vue.use(Vant)
 
+// vant 的圖片懶加載
+import { Lazyload } from 'vant'
+// 注册时可以配置额外的选项
+Vue.use(Lazyload, {
+  error: require('./assets/img/404.jpg'),
+  loading: require('./assets/img/loding.gif'),
+})
+
 import 'assets/css/font.css'
 import 'assets/css/base.css'
+import { request } from './network/request'
 
 new Vue({
   router,

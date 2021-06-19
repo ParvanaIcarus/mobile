@@ -27,7 +27,7 @@
         tag="div"
       >
         <div class="img">
-          <img :src="item.cover" />
+          <img v-lazy="item.cover" />
         </div>
         <div class="txt">
           <p class>{{item.name}}</p>
