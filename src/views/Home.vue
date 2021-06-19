@@ -83,10 +83,10 @@ export default {
       }
     },
     async getData() {
-      this.$toast.loading({
-        duration: 5000,
-        message: '加载中...',
-      })
+      // this.$toast.loading({
+      //   duration: 5000,
+      //   message: '加载中...',
+      // })
       this.flag = true
       const res = await reqProducts({
         page: this.page,
@@ -99,7 +99,7 @@ export default {
       this.arr = this.arr.concat(datas)
       this.page++
       this.flag = false
-      this.$toast.clear()
+      // this.$toast.clear()
     },
   },
   created() {

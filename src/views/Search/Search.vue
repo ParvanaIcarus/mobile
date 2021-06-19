@@ -33,17 +33,36 @@
 <script>
 import { reqProducts } from 'network/api'
 export default {
+  name: 'Search',
   data() {
     return {
+      // 搜索商品的关键字
       value: '',
-      totalPage: 0,
+      // 搜索关键字的中间变量
+      valueCopy: '',
+      // 搜索商品关键字的商品总页数
+      totalPage: 2,
+      // 商品数组
       arr: [],
+      // 置顶
       top: 'none',
+      // 页数
+      page: 1,
+      // 中间变量
+      flag: true,
     }
   },
   props: {},
   methods: {
-    boxScroll() {},
+    boxScroll(el) {
+      let box = el.target
+      this.top = box.scrollTop >= 400 ? 'block' : 'none'
+      if (box.scrollHeight - box.clientHeight <= box.scrollTop + 2) {
+        if (this.page == this.totalpage) return this.$toast('沒有更多數據了')
+        // if (this.flag) return
+        this.searchKey()
+      }
+    },
     totop() {},
     // 防抖函数.
     setTime(callback) {
@@ -52,19 +71,37 @@ export default {
     },
     // 搜索关键字。
     async searchKey() {
-      // 发请求
-      if (!this.value) return
-      const { data } = await reqProducts({
-        key: this.value,
-        page: 1,
-        size: 10,
-      })
-      this.totalPage = data.totalPage
-      if (!data.data[0]) {
-        this.$toast('没有该数据...')
+      // value为空时清空数组 与重置页数 不触发
+      if (!this.value) {
         this.arr = []
+        this.page = 1
         return
       }
+      // 将第一次的值赋值给copy。
+      // 值更改了的话 清空数组与页数
+      if (this.value != this.valueCopy) {
+        this.valueCopy = this.value
+        this.arr = []
+        this.page = 1
+      }
+      if (this.page == this.totalPage + 1) return
+      if (!this.flag) return
+      this.flag = false
+      // 发请求
+      const { data } = await reqProducts({
+        key: this.value,
+        page: this.page,
+        size: 10,
+      })
+      this.page++
+      // 获取当前搜索页的总数
+      this.totalPage = data.totalPages
+      // 搜索的商品不存在的时候清空数组
+      if (!data.data[0]) {
+        this.$toast('没有该数据...')
+        return
+      }
+      this.flag = true
       this.arr = this.arr.concat(data.data)
     },
   },
@@ -77,7 +114,7 @@ export default {
 .content {
   display: flex;
   width: 100vw;
-  height: 85.5vh;
+  height: calc(100vh - 46px);
   margin-top: 12.266666666666666vw;
   margin-right: 0;
   flex-wrap: wrap;
