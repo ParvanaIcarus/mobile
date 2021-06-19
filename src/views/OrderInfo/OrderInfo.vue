@@ -42,14 +42,15 @@
 </template>
 <script>
 import { reqOrderInfo, reqPayOrder } from 'network/api'
+import passwordFunction from 'mixin/passwordFunction.js'
+
 import { mapState } from 'vuex'
 export default {
+  mixins: [passwordFunction],
   data() {
     return {
-      show: false,
       orderId: 0,
       OrderObj: {},
-      password: '',
     }
   },
   props: {},
@@ -66,27 +67,6 @@ export default {
     async getData() {
       const res = await reqOrderInfo(this.orderId)
       this.OrderObj = res.data
-    },
-    // 密码验证
-    passwordInput() {
-      this.$nextTick(async (_) => {
-        if (this.password.length == 6) {
-          if (this.userInfo.pay_password == this.password) {
-            // this.orderId  // 支付密碼正確  發請求
-            const { errcode, errmsg } = await reqPayOrder(
-              this.orderId,
-              this.password
-            )
-            if (errcode !== 0) return this.$toast(errmsg)
-            this.$router.push('/paySuccess')
-          } else {
-            // 支付密碼錯誤
-            this.$toast('支付密碼錯誤')
-          }
-          this.password = ''
-          this.show = false
-        }
-      })
     },
   },
   created() {

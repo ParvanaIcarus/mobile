@@ -30,14 +30,12 @@ export default {
     },
     // 前往訂單詳情
     orderClick(id) {
-      // this.$router.push('/orderInfo')
       this.$router.push({
         path: '/orderInfo',
         query: {
           id,
         },
       })
-      // console.log(id)
     },
     // 前往商品詳情
     ProductClick(id) {

@@ -74,6 +74,9 @@ const routes = [
     path: '/orderConfirm',
     name: 'OrderConfirm',
     component: OrderConfirm,
+    meta: {
+      isLogin: true,
+    },
   },
   {
     path: '/paySuccess',
@@ -176,12 +179,22 @@ router.beforeEach((to, from, next) => {
     if (sessionStorage.getItem('token')) {
       next()
     } else {
-      next('/login')
+      next({
+        path: '/login',
+      })
     }
   } else {
     //不需要登录的路由组件
     next()
   }
 })
+
+// 解决路由守卫 放行后报错的问题。
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location, onResolve, onReject) {
+  if (onResolve || onReject)
+    return originalPush.call(this, location, onResolve, onReject)
+  return originalPush.call(this, location).catch((err) => err)
+}
 
 export default router

@@ -73,7 +73,6 @@ export default {
         'cartList',
         JSON.stringify([{ product_id, cover, name, price, count: 1 }])
       )
-      console.log(this.productData)
       this.$router.push('orderConfirm')
     },
     // 點擊加入購物車

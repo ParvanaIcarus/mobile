@@ -35,6 +35,12 @@
         </div>
       </router-link>
     </div>
+    <!-- tabbar -->
+    <van-tabbar v-model="active">
+      <van-tabbar-item icon="star-o" to="/home">精選</van-tabbar-item>
+      <van-tabbar-item icon="cart-o" to="/cart">購物車</van-tabbar-item>
+      <van-tabbar-item icon="contact" to="/me">我的</van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 <script>
@@ -45,7 +51,7 @@ export default {
   data() {
     return {
       box: '',
-      // active: 0,
+      active: 0,
       arr: [],
       totalpage: '',
       loading: 'none',

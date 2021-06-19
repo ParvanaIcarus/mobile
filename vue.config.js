@@ -12,6 +12,7 @@ module.exports = {
       .set('network', resolve('src/network'))
       .set('utils', resolve('src/utils'))
       .set('store', resolve('src/store'))
+      .set('mixin', resolve('src/mixin'))
   },
   devServer: {
     // host: '192.168.0.2', // ip

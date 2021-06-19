@@ -3,7 +3,7 @@
     <!-- 用户头像 -->
     <div class="head">
       <div v-if="!isLogin">
-        <img src="http://192.168.0.127:8080/img/profile.76a75b8f.png" />
+        <img src="~assets/img/profile.png" />
         <div class="nikename" @click="login">登录</div>
       </div>
       <div v-else>
@@ -30,6 +30,11 @@
       />
       <van-cell title="用戶設置" is-link icon="setting-o" to="/setting" />
     </van-cell-group>
+    <van-tabbar v-model="active">
+      <van-tabbar-item icon="star-o" to="/home">精選</van-tabbar-item>
+      <van-tabbar-item icon="cart-o" to="/cart">購物車</van-tabbar-item>
+      <van-tabbar-item icon="contact" to="/me">我的</van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 <script>
@@ -39,20 +44,20 @@ export default {
   name: 'Me',
   data() {
     return {
+      active: 2,
       IMGBASEURL,
     }
   },
   methods: {
+    // 点击登录
     login() {
       this.$router.push('/login')
     },
   },
-  props: {},
   computed: {
     ...mapGetters(['isLogin']),
     ...mapState(['userInfo']),
   },
-  created() {},
 }
 </script>
 <style lang="less" scoped>

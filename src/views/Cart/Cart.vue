@@ -85,7 +85,7 @@ export default {
     },
     // 計算總價
     totalPrice() {
-      if (!this.arr[0]) return
+      if (this.arrLength) return
       return (
         this.arr
           .filter((item) => item.checked == 1)
@@ -94,7 +94,7 @@ export default {
     },
     // 計算總件數
     amount() {
-      if (!this.arr[0]) return
+      if (this.arrLength) return
       return this.arr
         .filter((item) => item.checked == 1)
         .reduce((pre, curr) => (pre += +curr.count), 0)

@@ -74,23 +74,13 @@ export default {
     },
   },
   props: {},
-  created() {
-    // if (this.$route.query.id) {
-    //   console.log(
-    //     this.userInfo.addressList.find(
-    //       (item) => item.id == this.$route.query.id
-    //     )
-    //   )
-    // }
-  },
+  created() {},
   computed: {
     ...mapState(['userInfo']),
     // 判斷是否新增，是為true，否則為false
     type() {
       return this.$route.query.type == 'add'
     },
-    //选择了的收货地址
-
     // 拼串 放入到页面地址栏里
     addInfo() {
       if (this.type) return {}

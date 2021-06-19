@@ -28,10 +28,8 @@ export default {
           id,
         },
       })
-      // :to="{path:'/Product',query:{id:item.id}}"
     },
   },
-  created() {},
   computed: {
     ...mapState(['userInfo']),
     likeList() {

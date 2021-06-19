@@ -24,7 +24,6 @@ export default {
   props: {},
   methods: {
     ...mapMutations(['changeSelectAddress']),
-
     // 选择地址
     selectAddress(item) {
       this.changeSelectAddress(item)

@@ -1,6 +1,8 @@
 <template>
   <div class>
+    <!-- navbar -->
     <van-nav-bar title="確認訂單" left-text="返回" left-arrow @click-left="$router.back()" />
+    <!-- 选择收货地址栏 -->
     <van-cell
       :title="title? title : `请选择收货地址`"
       :label="label ? label : ''"
@@ -8,6 +10,7 @@
       class="address"
       to="/addresslist"
     />
+    <!-- 循环订单商品 -->
     <div v-for="item in arr" :key="item.product_id">
       <van-cell
         :title="item.name.split(' ')[0]"
@@ -17,11 +20,14 @@
         :icon="item.cover"
       />
     </div>
+    <!-- 底部 订单详情与提交订单 -->
     <van-submit-bar :price="totalPrice?totalPrice:0" button-text="提交订单" @submit="onSubmit">
       <template>共计:{{amount}}件</template>
     </van-submit-bar>
 
+    <!-- 隐藏的付款栏 -->
     <van-popup v-model="show" position="bottom" style="height:70%;width:100%">
+      <!-- 支付密码 navbar -->
       <van-nav-bar title="付款" @click-left="closeClick">
         <template #left>
           <van-icon name="cross" />
@@ -36,24 +42,16 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-import { reqCreateOrder, reqPayOrder } from 'network/api'
+import { reqCreateOrder } from 'network/api'
+import passwordFunction from 'mixin/passwordFunction.js'
 export default {
   data() {
     return {
       arr: [],
-      show: false,
-      password: '',
       orderId: 0,
     }
   },
   methods: {
-    // 拒绝付款
-    closeClick() {
-      this.$router.push({
-        path: '/orderInfo',
-        query: { id: this.orderId },
-      })
-    },
     // 提交按钮
     async onSubmit() {
       if (!this.selectAddress.id) return this.$toast('请选择地址')
@@ -63,30 +61,9 @@ export default {
       this.orderId = res.data.id
       this.show = true
     },
-    // 密码验证
-    passwordInput() {
-      this.$nextTick(async (_) => {
-        if (this.password.length == 6) {
-          if (this.userInfo.pay_password == this.password) {
-            // this.orderId  // 支付密碼正確  發請求
-            const { errcode, errmsg } = await reqPayOrder(
-              this.orderId,
-              this.password
-            )
-            if (errcode !== 0) return this.$toast(errmsg)
-            this.$router.push('/paySuccess')
-          } else {
-            // 支付密碼錯誤
-            this.password = ''
-            return this.$toast('支付密碼錯誤')
-          }
-          this.password = ''
-          this.show = false
-        }
-      })
-    },
   },
   props: {},
+  mixins: [passwordFunction],
   created() {
     JSON.parse(sessionStorage.getItem('cartList')).forEach((item) => {
       this.arr.push(item)
